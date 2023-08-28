@@ -3,7 +3,7 @@
 ## Project Description
 An app to use a database to help a business owner keep track of HR informmation: departments, roles, and employees. There is functionality to query info about various topics and add in or update data within the database.
 
-Preview video: 
+Preview video: https://watch.screencastify.com/v/1BvXKRMosDNxYkXrc7nv
 
 ### screenshot 
 ![Alt text](image.png)
