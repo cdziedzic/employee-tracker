@@ -34,7 +34,6 @@ let {userChoice, addedDepartment, newRole, newRoleSalary, newRoleDepartment} = a
         type: "list",
         name: "newRoleDepartment",
         message: "What department is the role in?",
-        //supposed to work with an array or a function that returns an array
         choices: newChoices,
         when: (answers) => answers.userChoice === 'Add a role'
         }
@@ -67,7 +66,7 @@ switch (userChoice) {
         break;
 }
 
-
+//call the find all departments mehtod
 function viewAllDeparments() {
   
     newQuery.findAllDepartments()
@@ -76,26 +75,26 @@ function viewAllDeparments() {
        
     })
 }
-
+//call the view all roles mehthod
 function viewAllRoles() {
     newQuery.findAllRoles()
     .then(data => {
         console.table(data[0])
     })
 }
-
+//call the find employee method
 function viewAllEmployees() {
     newQuery.findAllEmployees()
     .then(data => {
         console.table(data[0])
     })
 }
-
+//call the method to make new department
 function addNewDepartment(addedDepartment) {
     newQuery.createDepartment(addedDepartment)
     console.log('added new department')
 }
-
+//list to populate inquirer prompt based on sql query
 async function populateDepartmentList() {
   return newQuery.makeDepartmentList()
     .then(data => {
@@ -105,7 +104,7 @@ async function populateDepartmentList() {
                 return newChoices
     }
     )}
-
+//find the department id based on the user selected dept name
 function getDepartmentId(newRoleDepartment) {
         return newQuery.findDepartmentId(newRoleDepartment)
          .then(data => {
