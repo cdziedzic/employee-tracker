@@ -60,6 +60,8 @@ switch (userChoice) {
   
     case 'Add a role':
         populateDepartmentList()
+        getDepartmentId(newRoleDepartment)
+        // addNewRole(newRole, newRoleSalary, departmentId)
         break;
     default:
         break;
@@ -93,26 +95,23 @@ function addNewDepartment(addedDepartment) {
     newQuery.createDepartment(addedDepartment)
     console.log('added new department')
 }
-//i think this needs to be async function to mmake it work? not sure how to format this properly
-// function populateDepartmentList() {
-//     newQuery.makeDepartmentList()
-//     .then(data => {
-
-//         const dataArray = (data[0])
-//         const newChoices = dataArray[0].map(item => item.name)
-//         console.log(newChoices)
-//         return newChoices
-//     })
-// }
-
 
 async function populateDepartmentList() {
-  return  newQuery.makeDepartmentList()
+  return newQuery.makeDepartmentList()
     .then(data => {
 
-                const dataArray = (data[0])
-                const newChoices = dataArray.map(item => item.name)
-                console.log(newChoices)
+                const newChoices = (data[0])
+                
                 return newChoices
     }
     )}
+
+function getDepartmentId(newRoleDepartment) {
+        return newQuery.findDepartmentId(newRoleDepartment)
+         .then(data => {
+             const departmentId = data[0]
+             console.table(departmentId)
+             return departmentId
+         })
+     }
+    

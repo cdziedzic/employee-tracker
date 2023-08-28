@@ -27,8 +27,15 @@ left join employee m on employee.manager_id = m.id`)
     makeDepartmentList() {
         return this.connection.promise().execute('SELECT name from department')
     }
-    createNewRole() {
-
+    createNewRole([newRole, newRoleSalary, departmentId]) {
+       return this.connection.promise().execute(`INSERT INTO role (name, salary,department_id)
+        VALUES (?, ?, ?);`, [newRole, newRoleSalary, departmentId])
+    }
+    findDepartmentId(newRoleDepartment){
+        return this.connection.promise().execute(`select distinct department.id from department 
+        join role on department.id = role.department_id
+        
+        where name = ?`, [newRoleDepartment])
     }
 }
 
