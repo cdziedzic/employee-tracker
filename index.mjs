@@ -1,13 +1,11 @@
 import inquirer from 'inquirer';
 import Query from './db/index.mjs'
 import connection from './db/connection.mjs';
-const newQuery = new Query
-let choices;
+const newQuery = new Query();
+const newChoices = await populateDepartmentList()
 
-
-export let {userChoice, addedDepartment, newRole, newRoleSalary, newRoleDepartment} = await inquirer
+let {userChoice, addedDepartment, newRole, newRoleSalary, newRoleDepartment} = await inquirer
 .prompt ([
-    
     {
         type: "list",
         name: "userChoice",
@@ -37,7 +35,7 @@ export let {userChoice, addedDepartment, newRole, newRoleSalary, newRoleDepartme
         name: "newRoleDepartment",
         message: "What department is the role in?",
         //supposed to work with an array or a function that returns an array
-        choices: [],
+        choices: newChoices,
         when: (answers) => answers.userChoice === 'Add a role'
         }
 ]) 
@@ -57,7 +55,7 @@ switch (userChoice) {
         break;
 
     case 'Add a department':
-        addNewDepartment()
+        addNewDepartment(addedDepartment)
         break;
   
     case 'Add a role':
@@ -91,19 +89,30 @@ function viewAllEmployees() {
     })
 }
 
-function addNewDepartment() {
-    newQuery.createDepartment()
+function addNewDepartment(addedDepartment) {
+    newQuery.createDepartment(addedDepartment)
     console.log('added new department')
 }
 //i think this needs to be async function to mmake it work? not sure how to format this properly
-function populateDepartmentList() {
-    newQuery.makeDepartmentList()
-    .then(data => { 
-        const dataArray = (data[0])
-        choices = dataArray[0].map(item => item.name)
-        console.log(choices)
-        return res.json(choices)
-    })
+// function populateDepartmentList() {
+//     newQuery.makeDepartmentList()
+//     .then(data => {
 
-}
+//         const dataArray = (data[0])
+//         const newChoices = dataArray[0].map(item => item.name)
+//         console.log(newChoices)
+//         return newChoices
+//     })
+// }
 
+
+async function populateDepartmentList() {
+  return  newQuery.makeDepartmentList()
+    .then(data => {
+
+                const dataArray = (data[0])
+                const newChoices = dataArray.map(item => item.name)
+                console.log(newChoices)
+                return newChoices
+    }
+    )}
