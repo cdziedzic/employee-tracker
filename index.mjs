@@ -36,6 +36,7 @@ export let {userChoice, addedDepartment, newRole, newRoleSalary, newRoleDepartme
         type: "list",
         name: "newRoleDepartment",
         message: "What department is the role in?",
+        //supposed to work with an array or a function that returns an array
         choices: populateDepartmentList(),
         when: (answers) => answers.userChoice === 'Add a role'
         }
@@ -94,7 +95,7 @@ function addNewDepartment() {
     newQuery.createDepartment()
     console.log('added new department')
 }
-
+//i think this needs to be async function to mmake it work? not sure how to format this properly
 async function populateDepartmentList() {
     newQuery.makeDepartmentList()
     .then(data => { 
