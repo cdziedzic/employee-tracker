@@ -1,4 +1,5 @@
 import connection from './connection.mjs'
+import {addedDepartment} from '../index.mjs'
 //class to include methods for each query
 export default class Query {
     constructor() {
@@ -18,17 +19,16 @@ left join role on employee.role_id = role.id
 left join department on role.department_id = department.id
 left join employee m on employee.manager_id = m.id`)
 }
-// findManagers() {}
-// createEmployee() {}
-// removeEmployee(){}
-// updateEmployeeRole(){}
-// updateEmployeeManager(){}
-// createRole(){}
-// removeRole(){}
-// createDepartment(){}
-// removeDepartment(){}
-// viewDepartmentBudget(){}
-// findEmployeeByDepartment(){}
-// findEmployeeByManager(){}
+createDepartment(){
+    return this.connection.promise().query(`INSERT INTO department (name)
+    VALUES (?)`, addedDepartment)
+}
+
+makeDepartmentList(){
+    return this.connection.promise().execute('SELECT name from department')
+}
+createNewRole(){
+
+}
 } 
 

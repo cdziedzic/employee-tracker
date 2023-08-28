@@ -2,15 +2,43 @@ import inquirer from 'inquirer';
 import Query from './db/index.mjs'
 import connection from './db/connection.mjs';
 const newQuery = new Query
+let choices;
 
-let {userChoice} = await inquirer
+
+export let {userChoice, addedDepartment, newRole, newRoleSalary, newRoleDepartment} = await inquirer
 .prompt ([
+    
     {
         type: "list",
         name: "userChoice",
         message: "What would you like to do?",
-        choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update an employee role'] 
+        choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role'] 
         },
+        {
+        type: "input",
+        name: "addedDepartment",
+        message: "What should the new department be called?",
+        when: (answers) => answers.userChoice === 'Add a department'
+        },
+        {
+        type: "input",
+        name: "newRole",
+        message: "What should the new role be called?",
+        when: (answers) => answers.userChoice === 'Add a role'
+        },
+        {
+        type: "input",
+        name: "newRoleSalary",
+        message: "What is the role's salary?",
+        when: (answers) => answers.userChoice === 'Add a role'
+        },
+        {
+        type: "list",
+        name: "newRoleDepartment",
+        message: "What department is the role in?",
+        choices: choices,
+        when: (answers) => answers.userChoice === 'Add a role'
+        }
 ]) 
 //execute code based on user choice
 switch (userChoice) {
@@ -25,9 +53,19 @@ switch (userChoice) {
 
     case 'View all employees':
         viewAllEmployees()
+        break;
+
+    case 'Add a department':
+        addNewDepartment()
+        break;
+  
+    case 'Add a role':
+        populateDepartmentList()
+        break;
     default:
         break;
 }
+
 
 function viewAllDeparments() {
   
@@ -51,3 +89,20 @@ function viewAllEmployees() {
         console.table(data[0])
     })
 }
+
+function addNewDepartment() {
+    newQuery.createDepartment()
+    console.log('added new department')
+}
+
+function populateDepartmentList() {
+    newQuery.makeDepartmentList()
+    .then(data => { 
+        const dataArray = (data[0])
+        choices = dataArray[0].map(item => item.name)
+        console.log(choices)
+        return choices
+    })
+
+}
+
