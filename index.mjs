@@ -36,7 +36,7 @@ export let {userChoice, addedDepartment, newRole, newRoleSalary, newRoleDepartme
         type: "list",
         name: "newRoleDepartment",
         message: "What department is the role in?",
-        choices: choices,
+        choices: populateDepartmentList(),
         when: (answers) => answers.userChoice === 'Add a role'
         }
 ]) 
@@ -95,13 +95,13 @@ function addNewDepartment() {
     console.log('added new department')
 }
 
-function populateDepartmentList() {
+async function populateDepartmentList() {
     newQuery.makeDepartmentList()
     .then(data => { 
         const dataArray = (data[0])
         choices = dataArray[0].map(item => item.name)
         console.log(choices)
-        return choices
+        return res.json(choices)
     })
 
 }
